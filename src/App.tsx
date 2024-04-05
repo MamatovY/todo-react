@@ -1,24 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import NewTodo from 'components/NewTodoForm';
+import TodoItem from 'components/TodoItem';
+import { Todo } from 'types';
+
+type ITodo = {
+  id: string,
+  title: string,
+  completed: boolean
+}
 
 function App() {
+  const [todos, setTodos] = useState<Todo[]>([])
+
+  const addTodo = (text: string) => {
+    const newTodo: Todo = {
+      id: new Date().toString(),
+      title: text,
+      completed: false
+    }
+    setTodos([newTodo, ...todos])
+  }
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then(res => res.json())
+      .then((data: Todo[]) => {
+        setTodos(data)
+      })
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NewTodo
+        handleClick={addTodo}
+      />
+      <TodoItem completed={true} id='0' title='ds' style={{ border: '1px solid white' }} />
     </div>
   );
 }
