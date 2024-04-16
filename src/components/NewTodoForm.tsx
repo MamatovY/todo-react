@@ -11,6 +11,7 @@ const NewTodo = ({ handleClick }: NewTodoFormProps) => {
     const onClick = () => {
         if (inputRef.current) {
             handleClick(inputRef.current.value)
+            inputRef.current.value = ''
         }
     }
 
