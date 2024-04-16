@@ -1,15 +1,17 @@
+import { addTodo } from "features/Todo/todoSlice";
 import { useRef } from "react";
+import { useAppDispatch } from "redux-hooks";
 
-
-interface NewTodoFormProps {
+interface NewItemProps {
+    placeholder: string,
     handleClick: (text: string) => void
 }
 
-const NewTodo = ({ handleClick }: NewTodoFormProps) => {
+const NewItem = ({ placeholder, handleClick }: NewItemProps) => {
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     const onClick = () => {
-        if (inputRef.current) {
+        if (inputRef.current?.value) {
             handleClick(inputRef.current.value)
             inputRef.current.value = ''
         }
@@ -19,7 +21,7 @@ const NewTodo = ({ handleClick }: NewTodoFormProps) => {
         <>
             <input
                 type="text"
-                placeholder="new todo"
+                placeholder={placeholder}
                 ref={inputRef}
             />
             <button onClick={onClick}>Add todo</button>
@@ -28,4 +30,4 @@ const NewTodo = ({ handleClick }: NewTodoFormProps) => {
 }
 
 
-export default NewTodo;
+export default NewItem;
